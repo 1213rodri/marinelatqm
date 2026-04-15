@@ -29,41 +29,6 @@
             z-index: 0;
         }
 
-        /* ========== BOTÓN DE MÚSICA ========== */
-        .music-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid rgba(216, 180, 254, 0.6);
-            background: rgba(216, 180, 254, 0.15);
-            color: #D8B4FE;
-            font-size: 22px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .music-btn:hover {
-            background: rgba(216, 180, 254, 0.3);
-            transform: scale(1.1);
-        }
-
-        .music-btn.playing {
-            animation: pulse-glow 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 10px rgba(216, 180, 254, 0.3); }
-            50% { box-shadow: 0 0 25px rgba(216, 180, 254, 0.6); }
-        }
-
         /* ========== CONTENEDOR DEL SOBRE ========== */
         .envelope-container {
             position: fixed;
@@ -277,8 +242,6 @@
         <source src="cancion.mp3" type="audio/mpeg">
     </audio>
 
-    <button class="music-btn" id="musicBtn" title="Reproducir/Pausar música">&#9835;</button>
-
     <div class="envelope-container" id="envelopeContainer">
         <div class="envelope-hint" id="envelopeHint">Click para abrir</div>
         <div class="envelope" id="envelope">
@@ -437,24 +400,12 @@
         });
 
         /* ========================================
-           CONTROL DE MÚSICA
+           MÚSICA - Suena al primer click en la página
         ======================================== */
         const music = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('musicBtn');
-        let isPlaying = false;
-
-        musicBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (isPlaying) {
-                music.pause();
-                musicBtn.classList.remove('playing');
-                musicBtn.innerHTML = '&#9835;';
-            } else {
-                music.play();
-                musicBtn.classList.add('playing');
-                musicBtn.innerHTML = '&#9835;';
-            }
-            isPlaying = !isPlaying;
+        document.addEventListener('click', function startMusic() {
+            music.play();
+            document.removeEventListener('click', startMusic);
         });
 
         /* ========================================
